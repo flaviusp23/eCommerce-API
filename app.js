@@ -16,7 +16,7 @@ const morgan = require('morgan')
 
 // cookie parser
 const cookieParser = require('cookie-parser')
-app.use(cookieParser())
+app.use(cookieParser(process.env.JWT_SECRET)) // we can use the same secret, or create another one its fine
 
 //logging requests
 app.use(morgan('tiny'))
@@ -25,7 +25,7 @@ app.use(morgan('tiny'))
 const authRouter = require('./routes/authRoutes')
 app.use('/api/v1/auth',authRouter)
 app.get('/api/v1/',(req,res)=>{
-    console.log(req.cookies)
+    console.log(req.signedCookies)
     res.send('Homepage')
 })
 
