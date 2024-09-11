@@ -14,13 +14,18 @@ const notFoundMiddleware = require('./middleware/not-found')
 const errorHandlerMiddlware = require('./middleware/error-handler')
 const morgan = require('morgan')
 
+// cookie parser
+const cookieParser = require('cookie-parser')
+app.use(cookieParser())
+
 //logging requests
 app.use(morgan('tiny'))
 
 //routes
 const authRouter = require('./routes/authRoutes')
 app.use('/api/v1/auth',authRouter)
-app.get('/',(req,res)=>{
+app.get('/api/v1/',(req,res)=>{
+    console.log(req.cookies)
     res.send('Homepage')
 })
 
