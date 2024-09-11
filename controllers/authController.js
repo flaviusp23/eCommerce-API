@@ -43,7 +43,11 @@ const login = async(req,res) =>{
 
 }
 const logout = async(req,res) =>{
-    res.send('logout')
+    res.cookie('token','logout',{
+        httpOnly:true,
+        expires:new Date(Date.now()),
+    }) // some gotchas with clearCookie, e mai safe sa facem asa (proof:https://github.com/expressjs/express/issues/3856)
+    res.status(StatusCodes.OK).json({msg:'user logged out!'})
 }
 
 module.exports = {
