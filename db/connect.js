@@ -1,15 +1,15 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-mongoose.connection.once('open',() => {
-    console.log('MongoDB connection ready!');
+mongoose.connection.once("open", () => {
+  console.log("MongoDB connection ready!");
 });
 
-mongoose.connection.on('error', (err) => {
-    console.log(err);
+mongoose.connection.on("error", (err) => {
+  console.log(err);
 });
 
 const connectDB = (url) => {
-  return mongoose.connect(url)
-}
+  return mongoose.connect(url);
+};
 
-module.exports = connectDB
+module.exports = connectDB;
