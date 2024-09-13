@@ -1,18 +1,22 @@
 const User = require("../models/User");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
-const { createTokenUser, attachCookiesToResponse } = require("../utils");
+const {
+  createTokenUser,
+  attachCookiesToResponse,
+  checkPermissions,
+} = require("../utils");
 const getAllUsers = async (req, res) => {
   console.log(req.user);
   const users = await User.find({ role: "user" }).select("-password -__v");
   res.status(StatusCodes.OK).json({ users });
 };
 const getSingleUser = async (req, res) => {
-  const userId = req.params.id;
-  const user = await User.find({ _id: userId }).select("-password -__v");
+  const user = await User.findOne({ _id: req.params.id }).select("-password");
   if (!user) {
-    throw new CustomError.NotFoundError(`No user with id:${userId}`);
+    throw new CustomError.NotFoundError(`No user with id : ${req.params.id}`);
   }
+  checkPermissions(req.user, user._id);
   res.status(StatusCodes.OK).json({ user });
 };
 const showCurrentUser = async (req, res) => {
