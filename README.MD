@@ -1,6 +1,7 @@
 role-based authentication
 ? signed cookies secure http only
-mongoose virtuals
+mongoose virtuals for showing reviews related to a single product
+mongo aggregation pipeline for reviews (average review, number of reviews) in atlas GUI
 
 ## Hosted Project
 
