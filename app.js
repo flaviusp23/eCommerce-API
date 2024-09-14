@@ -18,6 +18,11 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 app.use(cookieParser(process.env.JWT_SECRET)); // we can use the same secret, or create another one its fine
 
+//file upload
+const fileUpload = require("express-fileupload");
+app.use(express.static("./public"));
+app.use(fileUpload());
+
 //logging requests
 app.use(morgan("tiny"));
 
