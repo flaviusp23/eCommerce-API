@@ -6,22 +6,38 @@ const CustomError = require("../errors");
 const { checkPermissions } = require("../utils");
 
 const createReview = async (req, res) => {
+  const { product: productId } = req.body;
+  const isValidProduct = await Product.findOne({ _id: productId });
+  if (!isValidProduct) {
+    throw new CustomError.NotFoundError(`No product with id: ${productId}`);
+  }
+  const alreadySubmitted = await Review.findOne({
+    product: productId,
+    user: req.user.userId,
+  });
+  if (alreadySubmitted) {
+    throw new CustomError.BadRequestError(
+      "Already submitted review for this product",
+    );
+  }
+  req.body.user = req.user.userId;
+  const review = await Review.create(req.body);
   res.status(StatusCodes.CREATED).json({ review });
 };
 const getAllReviews = async (req, res) => {
-  res.status(StatusCodes.OK).json({ reviews, count: reviews.length });
+  res.status(StatusCodes.CREATED).json({ msg: "ok" });
 };
 const getSingleReview = async (req, res) => {
-  res.status(StatusCodes.OK).json({ review });
+  res.status(StatusCodes.CREATED).json({ msg: "ok" });
 };
 const updateReview = async (req, res) => {
-  res.status(StatusCodes.OK).json({ review });
+  res.status(StatusCodes.CREATED).json({ msg: "ok" });
 };
 const deleteReview = async (req, res) => {
-  res.status(StatusCodes.OK).json({ msg: "Success! Review removed" });
+  res.status(StatusCodes.CREATED).json({ msg: "ok" });
 };
 const getSingleProductReviews = async (req, res) => {
-  res.status(StatusCodes.OK).json({ reviews, count: reviews.length });
+  res.status(StatusCodes.CREATED).json({ msg: "ok" });
 };
 
 module.exports = {
