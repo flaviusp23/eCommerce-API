@@ -6,6 +6,24 @@ app.use(express.json());
 require("express-async-errors"); // echivalent cu try catch, decat sa pun peste tot mai bine facem asa fiinda folosim async in controllers
 const port = process.env.PORT || 5000;
 
+//security
+const rateLimiter = require("express-rate-limit");
+const helmet = require("helmet");
+const xss = require("xss-clean");
+const cors = require("cors");
+const mongoSanitize = require("express-mongo-sanitize");
+app.set("trust proxy", 1);
+app.use(
+  rateLimiter({
+    windowMs: 15 * 60 * 1000,
+    max: 60,
+  }),
+);
+app.use(helmet());
+app.use(cors());
+app.use(xss());
+app.use(mongoSanitize());
+
 //db
 const connectDB = require("./db/connect");
 
@@ -38,7 +56,6 @@ app.use("/api/v1/products", productRouter);
 app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/orders", orderRouter);
 app.get("/api/v1/", (req, res) => {
-  console.log(req.signedCookies);
   res.send("Homepage");
 });
 
