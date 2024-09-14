@@ -12,6 +12,7 @@ const {
   authenticateUser,
   authorizePermissions,
 } = require("../middleware/authentication");
+const { getSingleProductReviews } = require("../controllers/reviewController");
 
 router.get("/", getAllProducts);
 router.post(
@@ -36,4 +37,5 @@ router.post(
   uploadImage,
 );
 
+router.get("/:id/reviews", getSingleProductReviews);
 module.exports = router;

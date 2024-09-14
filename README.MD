@@ -1,5 +1,6 @@
 role-based authentication
 ? signed cookies secure http only
+mongoose virtuals
 
 ## Hosted Project
 
